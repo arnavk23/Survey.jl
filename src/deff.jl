@@ -35,7 +35,7 @@ deff(:api99, srs, bsrs)
 """
 function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
     # Variance from ReplicateDesign (actual design)
-    est, var_actual = Survey._mean(var, reps)
+    _, var_actual = Survey.mean(var, reps)
 
     # Variance under SRS (from AnalyticSolution branch or replicate formula)
     var_srs_val = Survey.var_srs(var, srs)

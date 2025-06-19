@@ -5,6 +5,7 @@ using Survey.Stats.Deff
 
 apisrs = load_data("apisrs")
 srs = SurveyDesign(apisrs; weights=:pw)
+Random.seed!(1234)
 bsrs = bootweights(srs; replicates=1000)
 
 @testset "Design Effect" begin
