@@ -50,7 +50,7 @@ julia> mean(:api00, bclus1)
  Row │ mean     SE
      │ Float64  Float64
 ─────┼──────────────────
-   1 │ 644.169  23.4107
+1    │ 644.169  23.7845
 ```
 """
 function mean(x::Symbol, design::ReplicateDesign)
@@ -89,8 +89,8 @@ julia> mean([:api00, :enroll], bclus1)
  Row │ names   mean     SE
      │ String  Float64  Float64
 ─────┼──────────────────────────
-   1 │ api00   644.169  23.4107
-   2 │ enroll  549.716  45.7835 
+1    │ api00   644.169  23.7845
+2    │ enroll  549.716  46.1573
 ```
 """
 function mean(x::Vector{Symbol}, design::AbstractSurveyDesign)
@@ -130,17 +130,17 @@ julia> mean(:api00, :cname, bclus1)
  Row │ mean     SE            cname
      │ Float64  Float64       String
 ─────┼────────────────────────────────────
-   1 │ 732.077  58.2169       Santa Clara
-   2 │ 659.436   2.66703      San Diego
-   3 │ 519.25    2.28936e-15  Merced
-   4 │ 647.267  47.6233       Los Angeles
-   5 │ 710.563   2.19826e-13  Orange
-   6 │ 472.0     1.13687e-13  Fresno
-   7 │ 709.556   1.26058e-13  Plumas
-   8 │ 669.0     1.27527e-13  Alameda
-   9 │ 551.189   2.18162e-13  San Joaquin
-  10 │ 452.5     0.0          Kern
-  11 │ 623.25    1.09545e-13  Mendocino
+1    │ 732.077  59.7332       Santa Clara
+2    │ 659.436  2.6411        San Diego
+3    │ 519.25   5.92519e-15   Merced
+4    │ 647.267  47.7412       Los Angeles
+5    │ 710.563  2.20177e-13   Orange
+6    │ 472.0    1.13687e-13   Fresno
+7    │ 709.556  1.27381e-13   Plumas
+8    │ 669.0    1.27844e-13   Alameda
+9    │ 551.189  2.17352e-13   San Joaquin
+10   │ 452.5    0.0          Kern
+11   │ 623.25   1.08494e-13  Mendocino
 ```
 """
 function mean(x::Symbol, domain, design::AbstractSurveyDesign)
