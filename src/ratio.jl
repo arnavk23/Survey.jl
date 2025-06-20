@@ -93,17 +93,17 @@ julia> ratio([:api00, :api99], :cname, bclus1)
  Row │ estimator  SE           cname       
      │ Float64    Float64      String      
 ─────┼─────────────────────────────────────
-  1  │  1.05598  0.0191326    Santa Clara
-2    │  1.06112  0.00969399   San Diego
-3    │  1.08121  6.47299e-17  Merced
-4    │  1.06307  0.0257811    Los Angeles
-5    │  1.03628  0.0          Orange
-6    │  1.17779  7.76836e-18  Fresno
-7    │  1.02127  0.0          Plumas
-8    │  1.09852  2.12491e-16  Alameda
-9    │  1.07331  2.22045e-16  San Joaquin
-10   │  1.11453  0.0          Kern
-11   │  1.00565  0.0          Mendocino
+   1 │  1.05598  0.0191326    Santa Clara
+   2 │  1.06112  0.00969399   San Diego
+   3 │  1.08121  6.47299e-17  Merced
+   4 │  1.06307  0.0257811    Los Angeles
+   5 │  1.03628  0.0          Orange
+   6 │  1.17779  7.76836e-18  Fresno
+   7 │  1.02127  0.0          Plumas
+   8 │  1.09852  2.12491e-16  Alameda
+   9 │  1.07331  2.22045e-16  San Joaquin
+  10 │  1.11453  0.0          Kern
+  11 │  1.00565  0.0          Mendocino
 ```
 """
 function ratio(x::Vector{Symbol}, domain, design::AbstractSurveyDesign)
