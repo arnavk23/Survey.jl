@@ -131,16 +131,16 @@ julia> mean(:api00, :cname, bclus1)
      │ Float64  Float64       String
 ─────┼────────────────────────────────────
    1 │ 732.077  59.7332       Santa Clara
-   2 │ 659.436  2.6411        San Diego
-   3 │ 519.25   5.92519e-15   Merced
+   2 │ 659.436   2.6411       San Diego
+   3 │ 519.25    5.92519e-15  Merced
    4 │ 647.267  47.7412       Los Angeles
-   5 │ 710.563  2.20177e-13   Orange
-   6 │ 472.0    1.13687e-13   Fresno
-   7 │ 709.556  1.27381e-13   Plumas
-   8 │ 669.0    1.27844e-13   Alameda
-   9 │ 551.189  2.17352e-13   San Joaquin
-  10 │ 452.5    0.0          Kern
-  11 │ 623.25   1.08494e-13  Mendocino
+   5 │ 710.563   2.20177e-13  Orange
+   6 │ 472.0     1.13687e-13  Fresno
+   7 │ 709.556   1.27381e-13  Plumas
+   8 │ 669.0     1.27844e-13  Alameda
+   9 │ 551.189   2.17352e-13  San Joaquin
+  10 │ 452.5     0.0          Kern
+  11 │ 623.25    1.08494e-13  Mendocino
 ```
 """
 function mean(x::Symbol, domain, design::AbstractSurveyDesign)
