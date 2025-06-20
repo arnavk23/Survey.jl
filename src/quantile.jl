@@ -107,13 +107,13 @@ Use replicate weights to compute the standard errors of the estimated quantiles.
 julia> quantile(:enroll, bsrs, [0.1,0.2,0.5,0.75,0.95])
 5×3 DataFrame
  Row │ percentile  statistic  SE       
-     │ String  Float64  Float64  
+     │ String      Float64    Float64  
 ─────┼─────────────────────────────────
-   1 │ 0.1     245.5    20.5714
-   2 │ 0.2     317.6    13.4605
-   3 │ 0.5     453.0    24.98
-   4 │ 0.75    668.5    33.6793
-   5 │ 0.95    1473.1   142.117
+   1 │ 0.1             245.5   20.5714
+   2 │ 0.2             317.6   13.4605
+   3 │ 0.5             453.0   24.98
+   4 │ 0.75            668.5   33.6793
+   5 │ 0.95           1473.1  142.117
 ```
 """
 function quantile(
