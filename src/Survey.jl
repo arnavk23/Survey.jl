@@ -30,6 +30,7 @@ include("show.jl")
 include("ratio.jl")
 include("by.jl")
 include("reg.jl")
+include("deff.jl")
 
 export load_data
 export AbstractSurveyDesign, SurveyDesign, ReplicateDesign
@@ -39,6 +40,7 @@ export mean, total, quantile, std
 export plot
 export hist, sturges, freedman_diaconis
 export boxplot
+export deff
 export bootweights
 export ratio
 export jackknifeweights, variance
