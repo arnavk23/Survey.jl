@@ -1,9 +1,13 @@
 using Survey
-using Random
+using Survey: deff
 using Test
+using Random
 
+# Load dataset and create design
 apisrs = load_data("apisrs")
 srs = SurveyDesign(apisrs; weights=:pw)
+
+# Fix seed for reproducibility
 Random.seed!(1234)
 bsrs = bootweights(srs; replicates=1000)
 
@@ -23,7 +27,7 @@ bsrs = bootweights(srs; replicates=1000)
 
     @testset "Different Weights" begin
         apisrs_alt = deepcopy(apisrs)
-        apisrs_alt[!, :pw_alt] .= apisrs_alt.pw .* 1.1
+        apisrs_alt.pw_alt = apisrs_alt.pw .* 1.1
         srs_alt = SurveyDesign(apisrs_alt; weights=:pw_alt)
         bsrs_alt = bootweights(srs_alt; replicates=1000)
         d_alt = deff(:api99, srs_alt, bsrs_alt)
@@ -39,6 +43,7 @@ bsrs = bootweights(srs; replicates=1000)
 
     @testset "Missing Values" begin
         apisrs_missing = deepcopy(apisrs)
+        allowmissing!(apisrs_missing, :api99)
         apisrs_missing[1:10, :api99] .= missing
 
         srs_missing = SurveyDesign(apisrs_missing; weights=:pw)
