@@ -1,4 +1,5 @@
 using Survey
+using Random
 using Test
 
 apisrs = load_data("apisrs")
