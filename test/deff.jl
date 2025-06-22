@@ -1,7 +1,8 @@
-using Survey
-using Survey: deff
 using Test
 using Random
+using Survey
+using Survey.Stats
+using Survey.Stats.Deff: deff
 
 # Load dataset and create design
 apisrs = load_data("apisrs")
@@ -12,7 +13,6 @@ Random.seed!(1234)
 bsrs = bootweights(srs; replicates=1000)
 
 @testset "Design Effect" begin
-
     @testset "Basic Computation" begin
         d = deff(:api99, srs, bsrs)
         @test d > 0.5 && d < 3.0
