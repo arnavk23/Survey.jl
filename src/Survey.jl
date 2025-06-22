@@ -12,6 +12,7 @@ using CairoMakie
 using AlgebraOfGraphics
 using CategoricalArrays
 using Random
+using .Deff
 using Missings
 using GLM
 import GLM: @formula, glm
