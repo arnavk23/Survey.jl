@@ -25,7 +25,6 @@ ratio
 glm
 plot
 boxplot
-deff
 hist
 Survey.sturges
 Survey.freedman_diaconis
