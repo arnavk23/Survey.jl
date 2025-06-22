@@ -35,6 +35,8 @@ deff(:api99, srs, bsrs)
 """
 function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
     # Variance from ReplicateDesign (actual design)
+    # Using Survey.mean to extract the standard error (SE) is efficient because it directly
+    # computes the mean and associated SE from the replicate design, avoiding manual calculations.
     se_actual = Survey.mean(var, reps)[!, :SE]
     var_actual = first(se_actual)^2
 
