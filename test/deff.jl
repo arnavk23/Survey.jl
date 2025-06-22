@@ -1,7 +1,5 @@
 using Survey
 using Test, Random
-using Survey.Stats
-using Survey.Stats.Deff
 
 apisrs = load_data("apisrs")
 srs = SurveyDesign(apisrs; weights=:pw)
