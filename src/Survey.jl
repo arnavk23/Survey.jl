@@ -41,7 +41,7 @@ export plot
 export hist, sturges, freedman_diaconis
 export boxplot
 export bootweights
-export deff
+export deff, var_srs
 export ratio
 export jackknifeweights, variance
 export @formula, glm
