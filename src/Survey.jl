@@ -12,7 +12,6 @@ using CairoMakie
 using AlgebraOfGraphics
 using CategoricalArrays
 using Random
-using .Deff
 using Missings
 using GLM
 import GLM: @formula, glm
@@ -41,8 +40,8 @@ export mean, total, quantile, std
 export plot
 export hist, sturges, freedman_diaconis
 export boxplot
-export deff
 export bootweights
+export deff
 export ratio
 export jackknifeweights, variance
 export @formula, glm
