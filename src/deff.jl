@@ -1,6 +1,6 @@
 using Statistics
 using Survey
-using Survey: SurveyDesign, ReplicateDesign, var_srs
+using Survey: SurveyDesign, ReplicateDesign
 
 """
     deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign) -> Float64
