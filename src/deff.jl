@@ -1,6 +1,22 @@
 using Statistics
 using Survey
-using Survey: SurveyDesign, ReplicateDesign, var_srs
+using Survey: SurveyDesign, ReplicateDesign
+
+"""
+    var_srs(var::Symbol, srs::SurveyDesign)
+
+Estimate the variance of a variable under simple random sampling (SRS).
+This function assumes unweighted SRS unless weights are provided in the `SurveyDesign`.
+
+Returns the estimated variance of the mean.
+"""
+function var_srs(var::Symbol, srs::SurveyDesign)
+    x = skipmissing(srs.data[:, var])
+    w = hasproperty(srs, :weights) ? srs.weights : ones(length(x))
+    μ = sum(w .* x) / sum(w)
+    v = sum(w .* (x .- μ).^2) / sum(w)
+    return v / length(x)  # variance of the mean
+end
 
 """
     deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign) -> Float64
