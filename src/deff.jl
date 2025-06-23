@@ -43,5 +43,3 @@ function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
 
     return var_actual / var_srs_val
 end
-
-end # module
