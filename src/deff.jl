@@ -11,11 +11,19 @@ This function assumes unweighted SRS unless weights are provided in the `SurveyD
 Returns the estimated variance of the mean.
 """
 function var_srs(var::Symbol, srs::SurveyDesign)
-    x = skipmissing(srs.data[:, var])
-    w = hasproperty(srs, :weights) ? srs.weights : ones(length(x))
-    μ = sum(w .* x) / sum(w)
-    v = sum(w .* (x .- μ).^2) / sum(w)
-    return v / length(x)  # variance of the mean
+    x = srs.data[!, var]
+    # Handle missing values
+    non_missing = .!ismissing.(x)
+    x_clean = x[non_missing]
+    
+    # Get weights (if available) or use equal weights
+    w = hasproperty(srs, :weights) ? srs.weights[non_missing] : ones(length(x_clean))
+    # Calculate weighted mean
+    μ = sum(w .* x_clean) / sum(w)
+    # Calculate weighted variance
+    v = sum(w .* (x_clean .- μ).^2) / sum(w)
+    # Return variance of the mean
+    return v / length(x_clean)
 end
 
 """
