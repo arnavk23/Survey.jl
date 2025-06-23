@@ -1,5 +1,3 @@
-module Deff
-
 using Statistics
 using Survey
 using Survey: SurveyDesign, ReplicateDesign, var_srs
