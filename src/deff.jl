@@ -35,7 +35,9 @@ function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
     # Variance from ReplicateDesign (actual design)
     # Using Survey.mean to extract the standard error (SE) is efficient because it directly
     # computes the mean and associated SE from the replicate design, avoiding manual calculations.
-    se_actual = Survey.mean(var, reps)[!, :SE]
+    mean_result = Survey.mean(var, reps)
+    @assert nrow(mean_result) == 1 "Survey.mean must return a DataFrame with exactly one row."
+    se_actual = mean_result[!, :SE]
     var_actual = first(se_actual)^2
 
     # Variance under SRS (from AnalyticSolution branch or replicate formula)
