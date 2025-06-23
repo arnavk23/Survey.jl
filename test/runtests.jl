@@ -1,5 +1,6 @@
 using Survey
 using Test
+using Random
 using CategoricalArrays
 using GLM
 using DataFrames
