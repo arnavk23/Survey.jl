@@ -12,6 +12,7 @@ bsrs = bootweights(srs; replicates=1000)
 end
 
 @testset "Different Replicates" begin
+    Random.seed!(1234)
     bsrs2 = bootweights(srs; replicates=500)
     d2 = deff(:api99, srs, bsrs2)
     d_ref = deff(:api99, srs, bsrs)
