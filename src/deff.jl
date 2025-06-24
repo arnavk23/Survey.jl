@@ -43,6 +43,7 @@ function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
 
     # Variance under SRS
     var_simple = var_srs(var, srs)
+    @assert var_simple > 0 "Variance under SRS (var_simple) must be greater than zero to avoid divide-by-zero errors."
 
     return var_actual / var_simple
 end
