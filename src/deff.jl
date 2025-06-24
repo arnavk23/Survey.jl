@@ -25,7 +25,7 @@ function var_srs(var::Symbol, srs::SurveyDesign)
     v = sum(w .* (x_clean .- μ).^2) / sum(w)
 
     # Return variance of the mean
-    return v / length(x_clean)
+    return v / sum(w)
 end
 
 """
