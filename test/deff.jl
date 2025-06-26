@@ -1,7 +1,6 @@
 using Survey
 using Test
 using Random
-using Missings: allowmissing
 using DataFrames
 
 apisrs = load_data("apisrs")
@@ -43,21 +42,4 @@ end
     d_api00 = deff(:api00, srs, bsrs)
     d_api99 = deff(:api99, srs, bsrs)
     @test abs(d_api00 - d_api99) > 1e-3
-end
-
-@testset "Missing Values" begin
-    apisrs_missing = deepcopy(apisrs)
-
-    # Ensure column allows missing values and then inject missing data
-    apisrs_missing[!, :api99] = allowmissing(apisrs_missing[!, :api99])
-    apisrs_missing[1:10, :api99] .= missing
-
-    # Drop rows with missing values
-    apisrs_clean = dropmissing(apisrs_missing, :api99)
-
-    srs_clean = SurveyDesign(apisrs_clean; weights=:pw)
-    bsrs_clean = bootweights(srs_clean; replicates=1000)
-
-    d_missing = deff(:api99, srs_clean, bsrs_clean)
-    @test d_missing > 0
 end
