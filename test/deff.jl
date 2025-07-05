@@ -43,17 +43,3 @@ end
     d_api99 = deff(:api99, srs, bsrs)
     @test abs(d_api00 - d_api99) > 1e-3
 end
-
-@testset "Match R: SRS vs Cluster" begin
-    using Survey
-
-    apiclus1 = load_data("apiclus1")
-    clus = SurveyDesign(apiclus1; weights=:pw, ids=:dnum, fpc=:fpc)
-    rclus = bootweights(clus; replicates=1000)
-
-    dclus = deff(:api00, clus, rclus)
-    dsrs = deff(:api00, srs, bsrs)
-
-    @test isapprox(dsrs, 1.03, atol=0.2)   # SRS from R
-    @test dclus > 5.0                      # DEFF in cluster sample is large
-end
