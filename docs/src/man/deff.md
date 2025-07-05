@@ -23,7 +23,7 @@ A `Deff` greater than 1 means that the complex design results in greater varianc
 deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign) -> Float64
 ```
 
-### Arguments:
+## Arguments:
 
 * `var`: The variable to compute the design effect for.
 * `srs`: A [`SurveyDesign`](@ref) object representing a simple random sample design.
@@ -41,6 +41,64 @@ bsrs = bootweights(srs; replicates=500)
 deff(:api99, srs, bsrs)
 ```
 
+## R Comparison
+
+### Example 1: SRS
+
+> data(api)
+> srs <- svydesign(ids = ~1, weights = ~pw, data = apisrs)
+> svymean(~api00, srs, deff = TRUE)
+          mean       SE   DEff
+api00 656.5850   9.4028 1.0334
+
+Julia Equivalent:
+de = deff(:api00, srs, bootweights(srs; replicates=500))
+#### Expected: de ≈ 1.03
+
+### Example 2: Clustered Design
+
+> dclus1 <- svydesign(id = ~dnum, weights = ~pw, data = apiclus1, fpc = ~fpc)
+> svymean(~api00, dclus1, deff = TRUE)
+         mean      SE   DEff
+api00 644.169  23.542 9.3459
+
+Julia Equivalent:
+dclus1 = SurveyDesign(apiclus1; clusters = :dnum, weights = :pw)
+bs = bootweights(dclus1; replicates=500)
+de = deff(:api00, dclus1, bs)
+#### Expected: de ≈ 9.34
+
+## Tests
+
+Unit tests are defined in test/deff.jl:
+```julia
+@testset "Design Effect" begin
+    d = deff(:api99, srs, bsrs)
+    @test d > 0.5 && d < 3.0
+end
+
+@testset "Different Replicates" begin
+    d2 = deff(:api99, srs, bootweights(srs; replicates=500))
+    d_ref = deff(:api99, srs, bsrs)
+    @test abs(d2 - d_ref) > 1e-3
+end
+
+@testset "Different Weights" begin
+    apisrs_alt = deepcopy(apisrs)
+    apisrs_alt[!, :pw_alt] .= apisrs_alt.pw .* (1 .+ 0.1 .* randn(length(apisrs_alt.pw)))
+    srs_alt = SurveyDesign(apisrs_alt; weights=:pw_alt)
+    d_alt = deff(:api99, srs_alt, bootweights(srs_alt; replicates=1000))
+    d_ref = deff(:api99, srs, bsrs)
+    @test abs(d_alt - d_ref) > 1e-3
+end
+
+@testset "Different Variables" begin
+    d_api00 = deff(:api00, srs, bsrs)
+    d_api99 = deff(:api99, srs, bsrs)
+    @test abs(d_api00 - d_api99) > 1e-3
+end
+```
+
 ## Interpretation
 
 If:
@@ -52,4 +110,6 @@ If:
 ## References
 
 * Lohr, S. (2010). *Sampling: Design and Analysis*, 2nd Ed., Section 7.5.
-* Rust, K. F., & Rao, J. N. K. (1996). [Variance estimation for complex surveys using replication techniques](https://journals.sagepub.com/doi/abs/10.1177/096228029600500305). *Statistical Methods in Medical Research*, 5(3), 283–310.
+* Rust, K. F., & Rao, J. N. K. (1996). [Variance estimation for complex surveys using replication techniques](https://journals.sagepub.com/doi/)
+* PracTools : https://cran.r-project.org/web/packages/PracTools/vignettes/Design-effects.html
+* abs/10.1177/096228029600500305). *Statistical Methods in Medical Research*, 5(3), 283–310.
