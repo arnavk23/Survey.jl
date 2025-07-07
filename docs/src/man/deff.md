@@ -110,6 +110,5 @@ If:
 ## References
 
 * Lohr, S. (2010). *Sampling: Design and Analysis*, 2nd Ed., Section 7.5.
-* Rust, K. F., & Rao, J. N. K. (1996). [Variance estimation for complex surveys using replication techniques](https://journals.sagepub.com/doi/)
+* Rust, K. F., & Rao, J. N. K. (1996). [Variance estimation for complex surveys using replication techniques](https://journals.sagepub.com/doi/abs/10.1177/096228029600500305). *Statistical Methods in Medical Research*, 5(3), 283–310.
 * PracTools : https://cran.r-project.org/web/packages/PracTools/vignettes/Design-effects.html
-* abs/10.1177/096228029600500305). *Statistical Methods in Medical Research*, 5(3), 283–310.
