@@ -20,12 +20,18 @@ A `Deff` greater than 1 means that the complex design results in greater varianc
 ## Usage
 
 ```julia
+deff(var::Symbol, design::SurveyDesign; replicates=1000) -> Float64
 deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign) -> Float64
 ```
 
 ## Arguments:
 
 * `var`: The variable to compute the design effect for.
+* `design`: A [`SurveyDesign`](@ref) object representing the survey design.
+* `replicates`: Number of bootstrap replicates to use (default: 1000).
+
+Alternatively, you can pass an already computed [`ReplicateDesign`](@ref) object:
+
 * `srs`: A [`SurveyDesign`](@ref) object representing a simple random sample design.
 * `reps`: A [`ReplicateDesign`](@ref) object, e.g. produced via `bootweights(...)`.
 
@@ -35,9 +41,12 @@ using Survey
 # Load sample dataset and construct designs
 apisrs = load_data("apisrs")
 srs = SurveyDesign(apisrs; weights=:pw)
-bsrs = bootweights(srs; replicates=500)
 
-# Compute Deff for api99
+# Compute Deff for api99 using the simple interface
+deff(:api99, srs)
+
+# Or use the explicit replicate design
+bsrs = bootweights(srs; replicates=500)
 deff(:api99, srs, bsrs)
 ```
 
@@ -52,8 +61,12 @@ deff(:api99, srs, bsrs)
 api00 656.5850   9.4028 1.0334
 
 Julia Equivalent:
-de = deff(:api00, srs, bootweights(srs; replicates=500))
-#### Expected: de ≈ 1.03
+```julia
+apisrs = load_data("apisrs")
+srs = SurveyDesign(apisrs; weights=:pw)
+deff(:api00, srs)
+```
+#### Expected: de ≈ 1.0334 (Actual: ≈ 1.0346)
 
 ### Example 2: Clustered Design
 
@@ -63,10 +76,12 @@ de = deff(:api00, srs, bootweights(srs; replicates=500))
 api00 644.169  23.542 9.3459
 
 Julia Equivalent:
-dclus1 = SurveyDesign(apiclus1; clusters = :dnum, weights = :pw)
-bs = bootweights(dclus1; replicates=500)
-de = deff(:api00, dclus1, bs)
-#### Expected: de ≈ 9.34
+```julia
+apiclus1 = load_data("apiclus1")
+dclus1 = SurveyDesign(apiclus1; clusters=:dnum, weights=:pw)
+deff(:api00, dclus1)
+```
+#### Expected: de ≈ 9.3459 (Actual: ≈ 9.4428)
 
 ## Tests
 

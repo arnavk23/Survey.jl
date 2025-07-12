@@ -13,7 +13,6 @@ function var_srs(var::Symbol, srs::SurveyDesign)
     non_missing = .!ismissing.(col_data)
     x_clean = col_data[non_missing]
 
-    # get the actual weight column using the symbol stored in srs.weights
     weight_col = srs.data[!, srs.weights]
     w_clean = weight_col[non_missing]
 
@@ -25,11 +24,57 @@ function var_srs(var::Symbol, srs::SurveyDesign)
     sum_weights = sum(w)
     μ = weighted_sum / sum_weights
 
-    # Weighted variance
+    # Weighted sample variance
     squared_deviations = (x_clean .- μ).^2
-    v = sum(w .* squared_deviations) / sum_weights
+    s2 = sum(w .* squared_deviations) / (sum_weights - 1)  # Using n-1 for unbiased estimator
 
-    return v / length(x_clean)
+    # Variance of the mean estimator
+    n = length(x_clean)
+    return s2 / n
+end
+
+"""
+    deff(var::Symbol, design::SurveyDesign; replicates=1000) -> Float64
+
+Compute the **design effect (Deff)** for a given variable in a complex survey.
+
+Deff is defined as:
+    Deff = Var_actual / Var_srs
+
+Where:
+- `Var_actual` is the variance estimated from the actual survey design
+- `Var_srs` is the variance under a simple random sample of the same size
+
+# Arguments
+- `var::Symbol`: The variable for which the design effect is to be calculated.
+- `design::SurveyDesign`: The survey design.
+- `replicates::Int=1000`: Number of bootstrap replicates to use for variance estimation.
+
+# Returns
+- `Float64`: The computed design effect.
+
+# Example
+```julia
+apisrs = load_data("apisrs")
+srs = SurveyDesign(apisrs; weights=:pw)
+deff(:api00, srs)
+```
+"""
+function deff(var::Symbol, design::SurveyDesign; replicates=1000)
+    # Create bootstrap replicates for variance estimation
+    bsdesign = bootweights(design; replicates=replicates)
+    
+    # Get variance from the replicate design
+    mean_result = Survey.mean(var, bsdesign)
+    @assert nrow(mean_result) == 1 "Survey.mean must return a DataFrame with exactly one row."
+    se_actual = mean_result[!, :SE]
+    var_actual = first(se_actual)^2
+
+    # Create equivalent SRS design for comparison
+    srs_design = SurveyDesign(design.data; weights=design.weights)
+    var_srs_val = Survey.var_srs(var, srs_design)
+
+    return var_actual / var_srs_val
 end
 
 """

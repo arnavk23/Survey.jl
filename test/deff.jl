@@ -10,7 +10,7 @@ bsrs = bootweights(srs; replicates=1000)
 
 @testset "Design Effect" begin
     # Ensure column is accessed using symbol as column name
-    x = srs.data[:, :api99]  # pre-check access
+    x = srs.data[:, :api99]
     d = deff(:api99, srs, bsrs)
     @test d > 0.5 && d < 3.0
 end
@@ -42,4 +42,38 @@ end
     d_api00 = deff(:api00, srs, bsrs)
     d_api99 = deff(:api99, srs, bsrs)
     @test abs(d_api00 - d_api99) > 1e-3
+end
+
+@testset "R Comparison - SRS" begin
+    # Example 1: Simple random sample
+    # R result: svymean(~api00, srs, deff = TRUE) gives DEff = 1.0334
+    apisrs = load_data("apisrs")
+    srs = SurveyDesign(apisrs; weights=:pw)
+    Random.seed!(1234)
+    
+    # Test with new abstraction
+    d_api00_new = deff(:api00, srs; replicates=1000)
+    @test abs(d_api00_new - 1.0334) < 0.1  # Allow 10% tolerance
+    
+    # Test with old interface
+    bsrs = bootweights(srs; replicates=1000)
+    d_api00_old = deff(:api00, srs, bsrs)
+    @test abs(d_api00_old - 1.0334) < 0.1  # Allow 10% tolerance
+end
+
+@testset "R Comparison - Clustered" begin
+    # Example 2: Clustered sample
+    # R result: svymean(~api00, dclus1, deff=TRUE) gives DEff = 9.3459
+    apiclus1 = load_data("apiclus1")
+    dclus1 = SurveyDesign(apiclus1; clusters=:dnum, weights=:pw)
+    Random.seed!(1234)
+    
+    # Test with new abstraction
+    d_api00_clus_new = deff(:api00, dclus1; replicates=1000)
+    @test abs(d_api00_clus_new - 9.3459) < 1.0  # Allow larger tolerance for clustered case
+    
+    # Test with old interface
+    bsclus1 = bootweights(dclus1; replicates=1000)
+    d_api00_clus_old = deff(:api00, dclus1, bsclus1)
+    @test abs(d_api00_clus_old - 9.3459) < 1.0  # Allow larger tolerance for clustered case
 end
