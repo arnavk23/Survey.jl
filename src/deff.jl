@@ -60,8 +60,6 @@ function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
 
     # Variance under SRS (from AnalyticSolution branch or replicate formula)
     var_srs_val = Survey.var_srs(var, srs)
-    @show var_srs_val
-    @show var_actual
     return var_actual / var_srs_val
 end
 
