@@ -10,7 +10,6 @@ bsrs = bootweights(srs; replicates=1000)
 
 @testset "Design Effect" begin
     # Ensure column is accessed using symbol as column name
-    x = srs.data[:, :api99]
     d = deff(:api99, srs, bsrs)
     @test d > 0.5 && d < 3.0
 end
