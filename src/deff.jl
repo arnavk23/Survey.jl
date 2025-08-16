@@ -53,7 +53,7 @@ function deff(var::Symbol, srs::SurveyDesign, reps::ReplicateDesign)
     # Using Survey.mean to extract the standard error (SE) is efficient because it directly
     # computes the mean and associated SE from the replicate design, avoiding manual calculations.
     mean_result = Survey.mean(var, reps)
-    @assert nrow(mean_result) == 1 "Survey.mean must return a DataFrame with exactly one row."
+    @assert nrow(mean_result) == 1 "Expected Survey.mean(var, reps) to return exactly one row, got $(nrow(mean_result)) rows."
     se_actual = mean_result[!, :SE]
     var_actual = first(se_actual)^2
 
