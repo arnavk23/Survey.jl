@@ -1,6 +1,5 @@
 using Statistics
 using Survey
-using Survey: SurveyDesign, ReplicateDesign
 
 """
     var_srs(var::Symbol, srs::SurveyDesign)
