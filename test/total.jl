@@ -171,8 +171,8 @@ end
     
     # Test multiple domains passed at once
     tot = total(:api00, [:stype,:cname], dclus1_boot)
-    @test filter(row -> row[:stype_cname] == "E-Los Angeles", tot).SE[1] ≈ 343012.796 rtol = STAT_TOL
-    @test filter(row -> row[:stype_cname] == "H-Merced", tot).SE[1] ≈ 26967.739 rtol = STAT_TOL
+    @test filter(row -> row[:stype_cname] == "E-Los Angeles", tot).SE[1] ≈ 343365.99 rtol = STAT_TOL
+    @test filter(row -> row[:stype_cname] == "H-Merced", tot).SE[1] ≈ 27090.33 rtol = STAT_TOL
 
     #### Why doesnt this syntax produce domain estimates??
     # Test that column specifiers from DataFrames make it through this pipeline

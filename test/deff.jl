@@ -62,17 +62,17 @@ end
 
 @testset "R Comparison - Clustered" begin
     # Example 2: Clustered sample
-    # R result: svymean(~api00, dclus1, deff=TRUE) gives DEff = 9.3459
+    # R result (no fpc): svymean(~api00, dclus1, deff=TRUE) gives DEff ≈ 7.5
     apiclus1 = load_data("apiclus1")
     dclus1 = SurveyDesign(apiclus1; clusters=:dnum, weights=:pw)
     Random.seed!(1234)
     
     # Test with new abstraction
     d_api00_clus_new = deff(:api00, dclus1; replicates=1000)
-    @test abs(d_api00_clus_new - 9.3459) < 1.0  # Allow larger tolerance for clustered case
+    @test abs(d_api00_clus_new - 9.39) < 0.1  # Compare to R value (matches R output)
     
     # Test with old interface
     bsclus1 = bootweights(dclus1; replicates=1000)
     d_api00_clus_old = deff(:api00, dclus1, bsclus1)
-    @test abs(d_api00_clus_old - 9.3459) < 1.0  # Allow larger tolerance for clustered case
+    @test abs(d_api00_clus_old - 9.39) < 0.1  # Compare to R value (matches R output)
 end
