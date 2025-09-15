@@ -1,5 +1,6 @@
 using Survey
 using Test
+using Random
 using CategoricalArrays
 using GLM
 using DataFrames
@@ -68,3 +69,4 @@ include("ratio.jl")
 #include("show.jl")
 include("jackknife.jl")
 include("reg.jl")
+include("deff.jl")

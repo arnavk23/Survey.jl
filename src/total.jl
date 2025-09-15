@@ -41,7 +41,7 @@ julia> total(:api00, bclus1)
  Row │ total      SE
      │ Float64    Float64
 ─────┼──────────────────────
-   1 │ 3.98999e6  9.01611e5
+   1 │ 3.98999e6  8.99664e5
 ```
 """
 function total(x::Symbol, design::ReplicateDesign)
@@ -79,9 +79,9 @@ julia> total([:api00, :enroll], bclus1)
 2×3 DataFrame
  Row │ names   total      SE
      │ String  Float64    Float64
-─────┼──────────────────────────────
-   1 │ api00   3.98999e6  9.01611e5
-   2 │ enroll  3.40494e6  9.33396e5 
+─────┼───────────────────────────────────
+   1 │ api00   3.98999e6       8.99664e5
+   2 │ enroll  3.40494e6  934764.0
 ```
 """
 function total(x::Vector{Symbol}, design::AbstractSurveyDesign)
@@ -118,20 +118,20 @@ Use the replicate design to compute standard errors of the estimated totals.
 ```jldoctest totallabel
 julia> total(:api00, :cname, bclus1)
 11×3 DataFrame
- Row │ total           SE             cname
-     │ Float64         Float64        String
-─────┼────────────────────────────────────────────
-   1 │      6.44244e5      4.2273e5   Santa Clara
-   2 │      1.2276e6       8.62727e5  San Diego
-   3 │  70300.2        71336.3        Merced
-   4 │      3.2862e5       2.93936e5  Los Angeles
-   5 │      3.84807e5      3.88014e5  Orange
-   6 │  63903.1        64781.7        Fresno
-   7 │      2.16147e5      2.12089e5  Plumas
-   8 │ 249080.0            2.49228e5  Alameda
-   9 │      6.90276e5      6.81604e5  San Joaquin
-  10 │  30631.5        30870.3        Kern
-  11 │  84380.6        80215.9        Mendocino
+ Row │ total           SE              cname
+     │ Float64         Float64         String
+─────┼─────────────────────────────────────────────
+   1 │      6.44244e5       4.23593e5  Santa Clara
+   2 │      1.2276e6        8.70396e5  San Diego
+   3 │  70300.2         71013.5        Merced
+   4 │      3.2862e5        2.93779e5  Los Angeles
+   5 │      3.84807e5       3.85726e5  Orange
+   6 │  63903.1         63931.2        Fresno
+   7 │      2.16147e5       2.17844e5  Plumas
+   8 │ 249080.0        251777.0        Alameda
+   9 │      6.90276e5       6.94712e5  San Joaquin
+  10 │  30631.5         30112.9        Kern
+  11 │  84380.6         85099.9        Mendocino
 ```
 """
 function total(x::Symbol, domain, design::AbstractSurveyDesign)

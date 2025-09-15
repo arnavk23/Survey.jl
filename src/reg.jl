@@ -26,8 +26,8 @@ julia> glm(@formula(api00 ~ api99), bsrs, Normal())
  Row │ estimator  SE        
      │ Float64    Float64   
 ─────┼──────────────────────
-   1 │ 63.2831    9.41231
-   2 │  0.949762  0.0135488
+   1 │ 63.2831    9.75899
+   2 │  0.949762  0.0138627
 ```
 """
 function glm(formula::FormulaTerm, design::ReplicateDesign, args...; kwargs...)
